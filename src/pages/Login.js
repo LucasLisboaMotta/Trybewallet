@@ -1,9 +1,70 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import connect from 'react-redux/lib/connect/connect';
+import validEmail from '../validacao/email';
+import validPassword from '../validacao/passwod';
+import loginEmail from '../actions';
 
-class Login extends React.Component {
-  render() {
-    return <div>Login</div>;
+class Login extends Component {
+  state = {
+    email: '',
+    password: '',
   }
+
+ inputChange = ({ target: { value, name } }) => {
+   this.setState({ [name]: value });
+ }
+
+ onClick = () => {
+   const { history, dispatch } = this.props;
+   const { email } = this.state;
+   dispatch(loginEmail(email));
+   history.push('/carteira');
+ }
+
+ render() {
+   const { email, password } = this.state;
+   console.log(this.props);
+   return (
+     <div>
+       <label htmlFor="email">
+         Email
+         <input
+           id="email"
+           name="email"
+           value={ email }
+           data-testid="email-input"
+           onChange={ this.inputChange }
+         />
+       </label>
+       <label htmlFor="password">
+         Senha
+         <input
+           id="password"
+           type="password"
+           name="password"
+           value={ password }
+           data-testid="password-input"
+           onChange={ this.inputChange }
+         />
+       </label>
+       <button
+         type="button"
+         disabled={ !(validEmail(email) && validPassword(password)) }
+         onClick={ this.onClick }
+       >
+         Entrar
+       </button>
+     </div>
+   );
+ }
 }
 
-export default Login;
+Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default connect()(Login);
