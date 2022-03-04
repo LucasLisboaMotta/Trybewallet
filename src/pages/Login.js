@@ -6,14 +6,9 @@ import validPassword from '../validacao/passwod';
 import loginEmail from '../actions';
 
 class Login extends Component {
-  state = {
-    email: '',
-    password: '',
-  }
+  state = { email: '', password: '' }
 
- inputChange = ({ target: { value, name } }) => {
-   this.setState({ [name]: value });
- }
+ inputChange = ({ target: { value, name } }) => this.setState({ [name]: value });
 
  onClick = () => {
    const { history, dispatch } = this.props;
@@ -24,7 +19,6 @@ class Login extends Component {
 
  render() {
    const { email, password } = this.state;
-   console.log(this.props);
    return (
      <div>
        <label htmlFor="email">
