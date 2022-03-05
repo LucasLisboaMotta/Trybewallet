@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import validEmail from '../validacao/email';
 import validPassword from '../validacao/passwod';
-import loginEmail from '../actions';
+import { loginEmail } from '../actions';
 
 class Login extends Component {
   state = { email: '', password: '' }
@@ -22,7 +22,7 @@ class Login extends Component {
    return (
      <div>
        <label htmlFor="email">
-         Email
+         Email:
          <input
            id="email"
            name="email"
@@ -32,7 +32,7 @@ class Login extends Component {
          />
        </label>
        <label htmlFor="password">
-         Senha
+         Senha:
          <input
            id="password"
            type="password"

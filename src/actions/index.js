@@ -1,3 +1,3 @@
-const loginEmail = (email) => ({ type: 'LOGIN', email });
+export const loginEmail = (email) => ({ type: 'LOGIN', email });
 
-export default loginEmail;
+export const expenses = (payload) => ({ type: 'EXPENSES', payload });
