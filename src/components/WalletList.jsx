@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { removeItem } from '../actions';
 
 class WalletList extends Component {
   render() {
-    const { expenses } = this.props;
+    const { expenses, dispatch } = this.props;
     return (
       <table>
         <tr>
@@ -29,7 +30,15 @@ class WalletList extends Component {
               <td>{(Number(value) * Number(exchangeRates[currency].ask)).toFixed(2)}</td>
               <td>{method}</td>
               <td>{tag}</td>
-              <td>botão</td>
+              <td>
+                <button
+                  type="button"
+                  onClick={ () => dispatch(removeItem(id)) }
+                  data-testid="delete-btn"
+                >
+                  Exclui
+                </button>
+              </td>
             </tr>
           ))}
       </table>
@@ -43,6 +52,7 @@ const mapStateToProps = (state) => ({
 
 WalletList.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.shape({ value: PropTypes.string })).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps)(WalletList);
