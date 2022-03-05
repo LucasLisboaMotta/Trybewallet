@@ -112,7 +112,7 @@ class WalletForm extends Component {
           onClick={ this.onSaveButton }
           disabled={ this.disabledButton() }
         >
-          Salvar
+          Adicionar despesa
         </button>
       </form>
     );

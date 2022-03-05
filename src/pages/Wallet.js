@@ -5,7 +5,7 @@ import WalletForm from '../components/WalletForm';
 
 class Wallet extends React.Component {
   render() {
-    const { email } = this.props;
+    const { email, expenses } = this.props;
     return (
       <>
         <header>
@@ -13,7 +13,14 @@ class Wallet extends React.Component {
             {`email: ${email}`}
           </span>
           <span data-testid="total-field">
-            Total: 0
+            Total:
+            <span data-testid="TOTAL_FIELD_TEST_ID">
+              {expenses.reduce((acc, { value, currency, exchangeRates }) => {
+                let actualCurrency = 1;
+                if (currency !== 'BRL') actualCurrency = exchangeRates[currency].ask;
+                return acc + (Number(value) * actualCurrency);
+              }, 0)}
+            </span>
           </span>
           <span data-testid="header-currency-field">
             Moeda: BRL
@@ -29,9 +36,11 @@ class Wallet extends React.Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  expenses: state.wallet.expenses,
 });
 
 Wallet.propTypes = {
+  expenses: PropTypes.arrayOf(PropTypes.shape({ value: PropTypes.string })).isRequired,
   email: PropTypes.string.isRequired,
 };
 
