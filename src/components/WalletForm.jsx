@@ -7,9 +7,9 @@ class WalletForm extends Component {
   state = {
     description: '',
     value: '',
-    currency: '',
-    method: '',
-    tag: '',
+    currency: 'USD',
+    method: 'Dinheiro',
+    tag: 'Alimentação',
     exchangeRates: [],
   };
 
@@ -20,7 +20,7 @@ class WalletForm extends Component {
   componentDidMount = async () => {
     const getApi = await fetch('https://economia.awesomeapi.com.br/json/all');
     const resolve = await getApi.json();
-    const exchangeRates = Object.keys(resolve);
+    const exchangeRates = Object.keys(resolve).filter((current) => current !== 'USDT');
     this.setState({ exchangeRates });
   };
 
@@ -29,9 +29,7 @@ class WalletForm extends Component {
     const getApi = await fetch('https://economia.awesomeapi.com.br/json/all');
     const exchangeRates = await getApi.json();
     dispatch(expenses({ ...this.state, exchangeRates }));
-    const newState = Object.keys(this.state)
-      .reduce((acc, current) => ({ ...acc, [current]: '' }), {});
-    this.setState({ ...newState, exchangeRates: Object.keys(exchangeRates) });
+    this.setState({ description: '', value: '' });
   }
 
   render() {

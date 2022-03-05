@@ -15,11 +15,8 @@ class Wallet extends React.Component {
           <span data-testid="total-field">
             Total:
             <span data-testid="TOTAL_FIELD_TEST_ID">
-              {expenses.reduce((acc, { value, currency, exchangeRates }) => {
-                let actualCurrency = 1;
-                if (currency !== 'BRL') actualCurrency = exchangeRates[currency].ask;
-                return acc + (Number(value) * actualCurrency);
-              }, 0)}
+              {expenses.reduce((acc, { value, currency, exchangeRates }) => (
+                acc + (Number(value) * exchangeRates[currency].ask)), 0)}
             </span>
           </span>
           <span data-testid="header-currency-field">
