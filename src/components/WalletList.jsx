@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { removeItem } from '../actions';
+import { removeItem, startEditItem } from '../actions';
 
 class WalletList extends Component {
   render() {
     const { expenses, dispatch } = this.props;
     return (
-      <table>
+      <tfoot>
         <tr>
           <th>Descrição </th>
           <th>Moeda</th>
@@ -33,6 +33,13 @@ class WalletList extends Component {
               <td>
                 <button
                   type="button"
+                  onClick={ () => dispatch(startEditItem(id)) }
+                  data-testid="edit-btn"
+                >
+                  Editar
+                </button>
+                <button
+                  type="button"
                   onClick={ () => dispatch(removeItem(id)) }
                   data-testid="delete-btn"
                 >
@@ -41,7 +48,7 @@ class WalletList extends Component {
               </td>
             </tr>
           ))}
-      </table>
+      </tfoot>
     );
   }
 }

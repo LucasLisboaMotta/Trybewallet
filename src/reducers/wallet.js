@@ -1,4 +1,4 @@
-const INITIAL_STATE = { currencies: [], expenses: [] };
+const INITIAL_STATE = { currencies: [], expenses: [], edit: false, idEdit: 0 };
 function wallet(state = INITIAL_STATE, { type, payload }) {
   if (type === 'EXPENSES') {
     if (state.expenses.length === 0) {
@@ -16,6 +16,14 @@ function wallet(state = INITIAL_STATE, { type, payload }) {
       ...state,
       expenses: [...state.expenses.filter(({ id }) => id !== payload)],
     };
+  }
+  if (type === 'START_EDIT_ITEM') return { ...state, edit: true, idEdit: payload };
+  if (type === 'EDIT_ITEM') {
+    const newArray = state.expenses.reduce((acc, element) => {
+      if (element.id === state.idEdit) return [...acc, payload];
+      return [...acc, element];
+    }, []);
+    return { ...state, expenses: newArray, edit: false };
   }
   return state;
 }

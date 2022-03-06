@@ -24,10 +24,8 @@ class Wallet extends React.Component {
             Moeda: BRL
           </span>
         </header>
-        <main>
-          <WalletForm />
-          <WalletList />
-        </main>
+        <WalletForm />
+        <WalletList />
       </>
     );
   }
