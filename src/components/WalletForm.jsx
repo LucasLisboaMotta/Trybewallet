@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { saveItem, editItem } from '../actions';
 
+const URL = 'https://economia.awesomeapi.com.br/json/all';
+
 class WalletForm extends Component {
   state = {
     description: '',
@@ -15,7 +17,7 @@ class WalletForm extends Component {
   };
 
   componentDidMount = async () => {
-    const getApi = await fetch('https://economia.awesomeapi.com.br/json/all');
+    const getApi = await fetch(URL);
     const resolve = await getApi.json();
     const exchangeRates = Object.keys(resolve).filter((current) => current !== 'USDT');
     this.setState({ exchangeRates });
@@ -33,7 +35,7 @@ class WalletForm extends Component {
     if (didUptate) {
       const { expenses, idEdit } = this.props;
       const find = expenses.find(({ id }) => id === idEdit);
-      const getApi = await fetch('https://economia.awesomeapi.com.br/json/all');
+      const getApi = await fetch(URL);
       const resolve = await getApi.json();
       const exchangeRates = Object.keys(resolve).filter((current) => current !== 'USDT');
       this.setState({ ...find, didUptate: false, exchangeRates });
@@ -43,7 +45,7 @@ class WalletForm extends Component {
   onSaveButton = async () => {
     const { description, value, currency, method, tag } = this.state;
     const { dispatch } = this.props;
-    const getApi = await fetch('https://economia.awesomeapi.com.br/json/all');
+    const getApi = await fetch(URL);
     const exchangeRates = await getApi.json();
     dispatch(saveItem({ description, value, currency, method, tag, exchangeRates }));
     this.setState({ description: '', value: '' });
