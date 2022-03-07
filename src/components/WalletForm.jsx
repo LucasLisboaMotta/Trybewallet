@@ -28,11 +28,14 @@ class WalletForm extends Component {
 
   onInputChange = ({ target: { name, value } }) => this.setState({ [name]: value });
 
-  vaiNoTeste = () => {
-    const { didUptate, exchangeRates } = this.state;
+  vaiNoTeste = async () => {
+    const { didUptate } = this.state;
     if (didUptate) {
       const { expenses, idEdit } = this.props;
       const find = expenses.find(({ id }) => id === idEdit);
+      const getApi = await fetch('https://economia.awesomeapi.com.br/json/all');
+      const resolve = await getApi.json();
+      const exchangeRates = Object.keys(resolve).filter((current) => current !== 'USDT');
       this.setState({ ...find, didUptate: false, exchangeRates });
     }
   }
