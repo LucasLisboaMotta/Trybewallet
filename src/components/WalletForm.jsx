@@ -2,17 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes, { arrayOf, func, bool, number, string } from 'prop-types';
 import { saveItem, editItem, getCurrencies } from '../actions';
-
-const URL = 'https://economia.awesomeapi.com.br/json/all';
+import optionsReder from '../helper/optionsRender';
 
 class WalletForm extends Component {
   state = {
     description: '',
     value: '',
     currency: 'CAD',
-    method: 'Dinheiro',
-    tag: 'Alimentação',
-    // didUptate: true,
+    method: 'Cartão de crédito',
+    tag: 'Lazer',
   };
 
   componentDidMount() {
@@ -20,30 +18,12 @@ class WalletForm extends Component {
     dispatch(getCurrencies());
   }
 
-  // componentDidUpdate() {
-  //   const { edit } = this.props;
-  //   if (edit) this.vaiNoTeste();
-  // }
-
-  onInputChange = ({ target: { name, value } }) => this.setState({ [name]: value });
-
-  // vaiNoTeste = async () => {
-  //   const { didUptate } = this.state;
-  //   if (didUptate) {
-  //     const { expenses, idEdit } = this.props;
-  //     const find = expenses.find(({ id }) => id === idEdit);
-  //     const getApi = await fetch(URL);
-  //     const resolve = await getApi.json();
-  //     const exchangeRates = Object.keys(resolve).filter((current) => current !== 'USDT');
-  //     this.setState({ ...find, didUptate: false, exchangeRates });
-  //   }
+  onInputChange = ({ target: { id, value } }) => this.setState({ [id]: value });
 
   onSaveButton = async () => {
     const { description, value, currency, method, tag } = this.state;
     const { dispatch } = this.props;
-    const getApi = await fetch(URL);
-    const exchangeRates = await getApi.json();
-    dispatch(saveItem({ description, value, currency, method, tag, exchangeRates }));
+    dispatch(saveItem({ description, value, currency, method, tag }));
     this.setState({ description: '', value: '' });
   }
 
@@ -66,7 +46,6 @@ class WalletForm extends Component {
           <input
             id="description"
             data-testid="description-input"
-            name="description"
             value={ description }
             onChange={ this.onInputChange }
           />
@@ -77,7 +56,6 @@ class WalletForm extends Component {
             type="number"
             id="value"
             data-testid="value-input"
-            name="value"
             value={ value }
             onChange={ this.onInputChange }
           />
@@ -87,17 +65,10 @@ class WalletForm extends Component {
           <select
             id="currency"
             data-testid="currency-input"
-            name="currency"
             value={ currency }
             onChange={ this.onInputChange }
           >
-            {currencies.map((current) => (
-              <option
-                value={ current }
-                key={ current }
-              >
-                {current}
-              </option>))}
+            {optionsReder(currencies)}
           </select>
         </label>
         <label htmlFor="method">
@@ -105,7 +76,6 @@ class WalletForm extends Component {
           <select
             id="method"
             value={ method }
-            name="method"
             data-testid="method-input"
             onChange={ this.onInputChange }
           >
@@ -119,7 +89,6 @@ class WalletForm extends Component {
           <select
             id="tag"
             value={ tag }
-            name="tag"
             data-testid="tag-input"
             onChange={ this.onInputChange }
           >

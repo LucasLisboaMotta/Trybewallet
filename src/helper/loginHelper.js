@@ -1,4 +1,4 @@
-const validEmail = (email) => {
+export const validEmail = (email) => {
   const atSing = email.split('@');
   if (!Array.isArray(atSing) || atSing.length !== 2) return false;
 
@@ -11,4 +11,5 @@ const validEmail = (email) => {
   && (splitPoint[1].length >= MINIMUN_SIZE));
 };
 
-export default validEmail;
+const MINIMUN_SIZE = 6;
+export const validPassword = (password) => password.length >= MINIMUN_SIZE;
