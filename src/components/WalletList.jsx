@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import PropTypes, { arrayOf, func } from 'prop-types';
 import { removeItem, startEditItem } from '../actions';
 
 class WalletList extends Component {
@@ -8,9 +8,7 @@ class WalletList extends Component {
     const { expenses, dispatch } = this.props;
     return (
       <table>
-
         <thead>
-
           <tr>
             <th>Descrição </th>
             <th>Moeda</th>
@@ -19,7 +17,6 @@ class WalletList extends Component {
             <th>Câmbio utilizado</th>
             <th>Valor convertido</th>
             <th>Método de pagamento</th>
-
             <th>Tag</th>
             <th>Editar/Excluir</th>
           </tr>
@@ -62,13 +59,11 @@ class WalletList extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  expenses: state.wallet.expenses,
-});
+const mapStateToProps = ({ wallet: { expenses } }) => ({ expenses });
 
 WalletList.propTypes = {
-  expenses: PropTypes.arrayOf(PropTypes.shape({ value: PropTypes.string })).isRequired,
-  dispatch: PropTypes.func.isRequired,
+  expenses: arrayOf(PropTypes.object).isRequired,
+  dispatch: func.isRequired,
 };
 
 export default connect(mapStateToProps)(WalletList);
